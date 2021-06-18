@@ -1,0 +1,20 @@
+site_name: Slin Notes
+site_url: https://notes.slin.com
+
+site_description: MkDocs Bootstrap Theme
+site_author: Tom Christie & Dougal Matthews
+
+repo_url: https://github.com/mkdocs/mkdocs-bootstrap
+
+copyright: Copyright &copy; 2021 <a href="https://https://github.com/dxslin">dxslin</a>.
+
+nav:
+   - Android: Android/index.md
+   - 帮助: help/index.md
+   
+#bootstrap material readthedocs 
+#more theme: https://mkdocs.github.io/mkdocs-bootswatch/
+theme: flatly
+    
+plugins:
+    - search
