@@ -1,18 +1,28 @@
-site_name: Slin Notes
+site_name: Slin笔记文库
 site_url: https://notes.slin.com
 
-site_description: MkDocs Bootstrap Theme
-site_author: Tom Christie & Dougal Matthews
+site_description: 笔记仓库，以此替换网易云笔记
+site_author: dxslin
 
 repo_name: 'SlinNotes'
 repo_url: 'https://github.com/dxslin/SlinNotes'
 edit_uri: 'tree/main/docs/'
 
-
+#目录，修改或者新增文件，需要添加到此处
 nav:
+    - '首页':
+        - '概述': index.md
+        - '帮助': 
+            - 'Mkdocs使用说明': help/1. Mkdocs.md
+            - 'Typora使用说明': help/2. Typora.md
+            - 'PicGo使用说明': help/3. PicGo.md
+            - 'Mermaid(流程图绘制)': help/4. Mermaid.md
     - 'Android':
         - '概述': Android/index.md
-    - '帮助': help/
+        - 'Jetpack': 
+            - 'ViewModel': Android/Jetpack/6. ViewModel.md
+
+    
 
 #https://squidfunk.github.io/mkdocs-material/getting-started/
 theme:
@@ -20,12 +30,22 @@ theme:
   language: zh
   icon:
     repo: fontawesome/brands/github
-  logo: ../dxslin_github_icon.jpg
+  logo: assets/img/dxslin_github_icon.jpg
   features:
     - navigation.tabs
   font:
     code: Jetbrains Mono
-   
+    
+# 自定义配置样式表
+extra_css:
+  - assets/css/extra.css
+
+# 底部额外信息
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dxslin/SlinNotes
+
 
 markdown_extensions:
   - pymdownx.highlight:
