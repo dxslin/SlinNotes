@@ -10,47 +10,45 @@ edit_uri: 'tree/main/docs/'
 
 #目录，修改或者新增文件，需要添加到此处
 nav:
-    - '首页':
-        - '概述': index.md
-        - '帮助': 
-            - 'Mkdocs使用说明': help/1. Mkdocs.md
-            - 'Typora使用说明': help/2. Typora.md
-            - 'PicGo使用说明': help/3. PicGo.md
-            - 'Mermaid(流程图绘制)': help/4. Mermaid.md
-    - 'Android':
-        - '概述': Android/index.md
-        - 'Jetpack': 
-            - 'ViewModel': Android/Jetpack/6. ViewModel.md
+  - '首页':
+      - '概述': index.md
+      - '帮助':
+          - 'Mkdocs使用说明': help/1. Mkdocs.md
+          - 'Typora使用说明': help/2. Typora.md
+          - 'PicGo使用说明': help/3. PicGo.md
+          - 'Mermaid(流程图绘制)': help/4. Mermaid.md
+  - 'Android':
+      - '概述': Android/index.md
+      - 'Jetpack':
+          - 'ViewModel': Android/Jetpack/6. ViewModel.md
 
-    
+
 
 #https://squidfunk.github.io/mkdocs-material/getting-started/
-theme_dir: theme
 theme:
   name: material
   language: zh
+  custom_dir: docs/theme
   icon:
-    repo: fontawesome/brands/github
-  logo: assets/img/dxslin_github_icon.jpg
+    logo: material/book-open-page-variant
+  palette:
+    scheme: dracula
+    primary: deep purple
+    accent: deep purple
+  font:
+    text: Roboto
+    code: Roboto Mono
   features:
     - navigation.tabs
-  font:
-    code: Jetbrains Mono
-    
+
 # 自定义配置样式表
 extra_css:
-    - assets/css/extra.css
-    
+  - assets/pymdownx-extras/extra-aa7dff8003.css
 extra_javascript:
-#    - https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.jss
-    - https://cdn.bootcdn.net/ajax/libs/mermaid/8.10.2/mermaid.min.js
-    - https://cdn.bootcdn.net/ajax/libs/raphael/2.3.0/raphael.js
-    - https://cdn.bootcdn.net/ajax/libs/underscore.js/1.13.1/underscore-esm-min.js
-    - https://cdn.bootcdn.net/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js
-    - https://cdn.bootcdn.net/ajax/libs/flowchart/1.15.0/flowchart.min.js
-    - assets/js/umlconvert.js
+  - assets/pymdownx-extras/extra-uml-51b11a9a.js
 
-    
+
+
 # 底部额外信息
 extra:
   social:
@@ -59,17 +57,84 @@ extra:
 
 
 markdown_extensions:
-  - pymdownx.highlight:
-      linenums: true
+  - markdown.extensions.toc:
+      slugify: !!python/name:pymdownx.slugs.uslugify
+      permalink: ""
+  - markdown.extensions.admonition:
+  - markdown.extensions.smarty:
+      smart_quotes: false
+  - pymdownx.betterem:
+  - markdown.extensions.attr_list:
+  - markdown.extensions.def_list:
+  - markdown.extensions.tables:
+  - markdown.extensions.abbr:
+  - markdown.extensions.footnotes:
+  - markdown.extensions.md_in_html:
   - pymdownx.superfences:
-        custom_fences: [
-            {name: flow, class: uml-flowchart}
-           ,{name: sequence, class: uml-sequence-diagram}
-           ,{name: mermaid, class: mermaid}
-        ]
-  - pymdownx.details
-  - admonition
-  - attr_list
+      preserve_tabs: true
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.fence_mathjax_format
+            #        - name: md-render
+            #          class: md-render
+          #          format: !!python/name:tools.pymdownx_md_render.md_sub_render
+  - pymdownx.highlight:
+      extend_pygments_lang:
+        - name: php-inline
+          lang: php
+          options:
+            startinline: true
+        - name: pycon3
+          lang: pycon
+          options:
+            python3: true
+      linenums_style: pymdownx-inline
+  - pymdownx.inlinehilite:
+      custom_inline:
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.inline_mathjax_format
+  - pymdownx.magiclink:
+      repo_url_shortener: true
+      repo_url_shorthand: true
+      social_url_shorthand: true
+      social_url_shortener: true
+      user: facelessuser
+      repo: pymdown-extensions
+      normalize_issue_symbols: true
+  - pymdownx.tilde:
+  - pymdownx.caret:
+  - pymdownx.smartsymbols:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      #      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.escapeall:
+      hardbreak: True
+      nbsp: True
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.progressbar:
+  - pymdownx.arithmatex:
+  - pymdownx.mark:
+  - pymdownx.striphtml:
+  - pymdownx.snippets:
+      base_path:
+        - _snippets
+      #      - LICENSE.md
+      auto_append:
+        - refs.txt
+      check_paths: true
+  - pymdownx.keys:
+      separator: "\uff0b"
+  - pymdownx.details:
+  - pymdownx.tabbed:
+  - pymdownx.saneheaders:
+
 
 plugins:
   - search
