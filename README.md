@@ -2,7 +2,7 @@
 
 ## 一、 概述
 
-本仓库是尝试使用  [mkdocs](https://www.mkdocs.org/) + [typora](https://www.typora.io/)<img src="https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/typora-icon.png" alt="PicGo" width="36" /> + [PicGo](https://github.com/Molunerfinn/PicGo/releases) 创建的笔记记事仓库。
+本仓库是尝试使用  [mkdocs](https://www.mkdocs.org/) + [typora](https://www.typora.io/)<img src="https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/typora-icon.png" alt="typora" width="36" /> + [PicGo](https://github.com/Molunerfinn/PicGo/releases) 创建的笔记记事仓库。
 
 ## 二、项目配置
 
@@ -36,7 +36,7 @@
 
 ## 参考仓库：
 
-1. [mkdocs]( https://github.com/mkdocs/mkdocs/)
-2. [compose-library]( https://github.com/compose-museum/compose-library)
-3. [pymdown-extensions](https://github.com/facelessuser/pymdown-extensions)
+1. [mkdocs]( https://github.com/mkdocs/mkdocs/):  https://github.com/mkdocs/mkdocs/
+2. [compose-library]( https://github.com/compose-museum/compose-library):  https://github.com/compose-museum/compose-library
+3. [pymdown-extensions](https://github.com/facelessuser/pymdown-extensions): https://github.com/facelessuser/pymdown-extensions
 
