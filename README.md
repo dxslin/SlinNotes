@@ -33,7 +33,7 @@
 
 ## 参考仓库：
 
-1. [mkdocs]: https://github.com/mkdocs/mkdocs/
-2. [compose-library]: https://github.com/compose-museum/compose-library
-3. [pymdown-extensions]: https://github.com/facelessuser/pymdown-extensions
+1. [mkdocs]( https://github.com/mkdocs/mkdocs/)
+2. [compose-library]( https://github.com/compose-museum/compose-library)
+3. [pymdown-extensions](https://github.com/facelessuser/pymdown-extensions)
 
