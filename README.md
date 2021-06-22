@@ -21,6 +21,9 @@
    pip install mkdocs-material
    #安装文件更新日期插件
    pip install mkdocs-git-revision-date-localized-plugin
+   #缩减html和js
+   pip install mkdocs-minify-plugin
+   
    ```
    
    

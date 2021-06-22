@@ -140,5 +140,8 @@ plugins:
   - search
   - git-revision-date-localized:
       type: date
+  - minify:
+      minify_html: true
+      minify_js: true
 
 copyright: Copyright &copy; 2021 <a href="https://https://github.com/dxslin">dxslin</a>.
