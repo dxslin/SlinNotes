@@ -26,6 +26,7 @@ Message next() {
             nativePollOnce(ptr, nextPollTimeoutMillis);
 
             synchronized (this) {
+                //这里使用的是uptimeMillis方法，记录的是系统自启动以来的时间，是不受调节系统时间影响的，所
                 final long now = SystemClock.uptimeMillis();
                 Message prevMsg = null;
                 // mMessages相当于Message链表的head
