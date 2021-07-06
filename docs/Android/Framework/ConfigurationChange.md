@@ -1,0 +1,1 @@
+![img](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/configuration_change_flow.png)
