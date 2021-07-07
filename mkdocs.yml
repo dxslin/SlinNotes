@@ -81,7 +81,7 @@ markdown_extensions:
           format: !!python/name:pymdownx.arithmatex.fence_mathjax_format
         - name: md-render
           class: md-render
-          format: !!python/name:tools.pymdownx_md_render.md_sub_render
+          format: !!python/name:pymdownx.tools.pymdownx_md_render.md_sub_render
   - pymdownx.highlight:
       extend_pygments_lang:
         - name: php-inline
