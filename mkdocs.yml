@@ -19,8 +19,11 @@ nav:
           - 'Mermaid(流程图绘制)': help/4. Mermaid.md
   - 'Android':
       - '概述': Android/index.md
+      - 'Framework': 
+          - 'Configuration Change Flow': Android/Framework/ConfigurationChange.md
       - 'Jetpack':
-          - 'ViewModel': Android/Jetpack/6. ViewModel.md
+          - 'ViewModel源码分析': Android/Jetpack/6. ViewModel.md
+          
 
 
 
