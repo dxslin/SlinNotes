@@ -20,7 +20,10 @@ nav:
   - 'Android':
       - '概述': Android/index.md
       - 'Framework': 
-          - 'Configuration Change Flow': Android/Framework/ConfigurationChange.md
+          - 'Handler':
+                - 'MessageQueue的next方法': Android/Framework/Handler/MessageQueue.md
+          - '屏幕旋转执行流程': Android/Framework/ConfigurationChange.md
+          
       - 'Jetpack':
           - 'ViewModel源码分析': Android/Jetpack/6. ViewModel.md
           

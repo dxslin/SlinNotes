@@ -211,7 +211,7 @@ label[for="__search"]{padding-left:0}
 [data-md-color-scheme=dracula] .md-nav .md-nav__title{color:var(--md-text-color);background-color:var(--md-header-bg-color);border-bottom:.05rem solid var(--md-primary-fg-color)}}@media screen and (max-width:76.1875em){[data-md-color-scheme=dracula] .md-nav--primary .md-nav__item--active>.md-nav__link:not(:hover){color:var(--md-primary-fg-color)}
 [data-md-color-scheme=dracula] .md-nav--primary .md-nav__title{color:var(--md-text-color);background-color:var(--md-header-bg-color);border-bottom:.05rem solid var(--md-primary-fg-color)}}
 .md-grid {
-    max-width: auto;
+    max-width: 100%;
 }
 
 /*# sourceMappingURL=extra-aa7dff8003.css.map*/
