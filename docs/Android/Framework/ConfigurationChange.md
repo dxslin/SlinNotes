@@ -118,17 +118,19 @@ config change -> ActivityThread.handleRelaunchActivity()	— 	r.activity.mChangi
 
 继承ClientTransactionItem的类；
 
-ActivityLifecycleItem	Lifecycle的抽象类；这个后面再细看；  
-ActivityConfigurationChangeItem	Activity Configuration Changed消息；   
-ActivityResultItem	Activity Result消息；  
-ConfigurationChangeItem	App configuration change消息；  
-MoveToDisplayItem	Activity move to a different display消息；  
-MultiWindowModeChangeItem	Multi-window mode change消息；  
-PipModeChangeItem	Picture in picture mode change消息；  
-WindowVisibilityItem	Window visibility change消息；  
-NewIntentItem	New intent消息；  
-ActivityRelaunchItem	Activity relaunch callback消息；  
-LaunchActivityItem	Request to launch an activity；    
+|类|描述|
+|:-:|:--|
+|ActivityLifecycleItem|	Lifecycle的抽象类；这个后面再细看；|
+|ActivityConfigurationChangeItem|	Activity Configuration Changed消息；|
+|ActivityResultItem|	Activity Result消息；  |
+|ConfigurationChangeItem|	App configuration change消息；  |
+|MoveToDisplayItem|	Activity move to a different display消息；  |
+|MultiWindowModeChangeItem|	Multi-window mode change消息；  |
+|PipModeChangeItem|	Picture in picture mode change消息；  |
+|WindowVisibilityItem|	Window visibility change消息；  |
+|NewIntentItem|	New intent消息；  |
+|ActivityRelaunchItem|	Activity relaunch callback消息；  |
+|LaunchActivityItem|	Request to launch an activity；    |
 
 
 
