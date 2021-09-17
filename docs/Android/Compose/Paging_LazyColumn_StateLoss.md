@@ -50,20 +50,22 @@ fun TestScreen(
 
 具体实践：
 
-1. 将Header移除列表，列表只处理Paging数据
-2. 
+1. 将Header列表放在列表外面，列表只处理Paging数据，但是Header就无法跟随列表滑动，如果不影响UI的话可以使用；
+2. 在itemIndex为0的时候，将数据项和Header同时绘制，但是Header只能有数据的时候才会显示；
+3. 在1的基础上面自定义布局，然后自己处理滑动事件，成本太高，未尝试。
 
 
 
 ##### 方向2
 
-> 延长paging数据存在周期，返回页面时不再重新加载，而是直接使用之前的数据项。
+> 延长LazyPagingItems数据存在生命周期，返回页面时不再重新加载，而是直接使用之前的数据项。
 
 具体实践：
 
-1. 在NavHost外面获取collectAsLazyPagingItems数据项，然后依次传入方法内部，但是这样延长了ViewModel存在的生命周期，不建议使用。
-2. 尝试在ViewModel中缓存Flow数据
-3. 
+1. 在NavHost外面获取collectAsLazyPagingItems数据项，然后依次传入方法内部，但是这样延长了ViewModel存在的生命周期，而且每次都要传该对象，很麻烦，不建议使用；
+2. 将collectAsLazyPagingItems返回的LazyPagingItems数据项缓存到ViewModel，取数据时优先取ViewModel中的数据项，为空时再使用collectAsLazyPagingItems生成。这种方式既可以节省网络请求，又可以完美解决上面的问题，但是因为延长了LazyPagingItems的生命周期，需要在ViewModel的onClear中清除，避免内存泄漏。
+
+对比上面几个方案之后，决定采用方向2中实践2。
 
 
 
