@@ -52,7 +52,7 @@ fun TestScreen(
 
 1. 将Header列表放在列表外面，列表只处理Paging数据，但是Header就无法跟随列表滑动，如果不影响UI的话可以使用；
 2. 在itemIndex为0的时候，将数据项和Header同时绘制，但是Header只能有数据的时候才会显示；
-3. 在1的基础上面自定义布局，然后自己处理滑动事件，成本太高，未尝试。
+3. 在1的基础上面自定义布局，有数据时绘制正常的LazyList，无数据时，直接显示Banner，实现逻辑较为复杂；
 
 
 
@@ -65,7 +65,9 @@ fun TestScreen(
 1. 在NavHost外面获取collectAsLazyPagingItems数据项，然后依次传入方法内部，但是这样延长了ViewModel存在的生命周期，而且每次都要传该对象，很麻烦，不建议使用；
 2. 将collectAsLazyPagingItems返回的LazyPagingItems数据项缓存到ViewModel，取数据时优先取ViewModel中的数据项，为空时再使用collectAsLazyPagingItems生成。这种方式既可以节省网络请求，又可以完美解决上面的问题，但是因为延长了LazyPagingItems的生命周期，需要在ViewModel的onClear中清除，避免内存泄漏。
 
-对比上面几个方案之后，决定采用方向2中实践2。
 
 
+最终方案使用方向1方案3，自己重新组合List来达到想要的效果，详细代码请参考：
+
+[RefreshPageList](https://github.com/dxslin/ComposeStudy/blob/master/SPlayAndroid/src/main/java/com/slin/splayandroid/widget/RefreshPageList.kt)
 
