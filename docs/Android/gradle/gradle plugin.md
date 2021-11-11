@@ -38,11 +38,11 @@ Gradle插件可以使用Java、Groovy或者Kotlin编写，选择自己熟悉的�
 
 ### 三、创建插件（Plugin）
 
-#### 1：在buildSrc中编写插件
+插件可以创建在buildSrc模块（Module）中，也可以创建在自定义模块中。在buildSrc编写的插件可以直接在项目的build.gradle文件中通过类名引用，而且任务（Task）可以进行调试，但是只能在本项目中使用。自定义模块中的插件，只能先发布到仓库，然后再导入引用。
 
-在buildSrc编写的插件可以直接在项目的build.gradle文件中通过类名引用，而且任务（Task）可以进行调试。但是只能在本项目中使用。
+#### 1. 创建在buildSrc模块中
 
-1. 创建buildSrc 模块（Module），在setting.gradle中删除`include ':buildSrc'`。（buildSrc为保留模块名称，用于扩展Gradle项目构建能力）
+1. 创建buildSrc 模块，在setting.gradle中删除`include ':buildSrc'`。（buildSrc为保留模块名称，用于扩展Gradle项目构建能力）
 2. 修改buildSrc中build.gradle文件如下：
 
 ```groovy
@@ -111,7 +111,18 @@ import com.slin.study.buildsrc.VersionPlugin
 apply plugin: VersionPlugin
 ```
 
-![image-20211104201805797](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/image-20211104201805797.png)
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/image-20211104201805797.png"  alt=""/>
+    <br>
+    <div style="font-size:12px; color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #aaa;padding: 2px;">
+      greeting任务<br>
+        Tips：如果没有Tasks的话，需要前往File -> Settings -> Experimental -> 取消勾选 “Do not build Gradle task list during Gradle sync”
+  	</div>
+</center>
+
+
 
 
 
@@ -132,13 +143,62 @@ implementation-class=com.slin.study.buildsrc.VersionPlugin
 apply plugin: 'com.slin.study.version'
 ```
 
-6. 发布到本地仓库
-
-如果插件在buildSrc模块中无法发布直接发布，需要创建新的模块，将之前的代码复制到其中。然后在build.gradle中配置发布
 
 
+#### 2. 创建在自定义模块中
+
+1. 创建自定义模块
+
+如果插件在buildSrc模块中无法发布直接发布，需要创建新的模块（这个模块需要配置在setting.gradle中），重新按照上面的步骤配置项目。
+
+2. 发布到本地仓库
+
+在build.gradle中如下打包发布配置：
+
+```groovy
+// maven发布插件，用于将插件打包发布上传到仓库
+apply plugin: 'maven-publish'
+
+// project组，引用插件时用到
+group = "com.slin.study.gradle.plugin"
+// 版本
+version = "1.0.0"
+
+// 上传仓库配置
+uploadArchives {
+    repositories {
+        // 配置成本地仓库
+        ivy { url "${rootDir.path}/plugin_release" }
+        // flatDir name: 'libs', dirs: "${rootDir.path}/plugin_release"
+    }
+}
+```
+
+这里配置的将插件的打包发布到项目的`plugin_release`文件夹中，运行`uploadArchives`任务打包发布。仓库配置还可以设置成flatDir、maven、jcenter、mavenCentral、mavenLocal等。
 
 详见[build.gradle](https://github.com/dxslin/PluginStudy/blob/master/SlinGradlePlugin/build.gradle)
+
+3. 引用本地仓库插件
+
+在项目根目录build.gradle文件中添加自定义仓库，然后在dependencies中输入“`group`:`项目名`:`version`”导入相应的插件，之后便可以使用`apply plugin: 'com.slin.study.gradle.plugin.slin_gradle_plugin'`引用插件。
+
+```groovy
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        // 上面配置的本地仓库
+        ivy { url "${rootDir.path}/plugin_release" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.2.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+		// 导入插件库
+        classpath "com.slin.study.gradle.plugin:SlinGradlePlugin:1.0.0"
+
+    }
+}
+```
 
 
 
@@ -146,7 +206,15 @@ apply plugin: 'com.slin.study.version'
 
 
 
+
+
+
+
 ### 五、新建DSL
+
+
+
+
 
 
 
