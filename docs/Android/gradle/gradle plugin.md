@@ -180,7 +180,7 @@ uploadArchives {
 
 3. 引用本地仓库插件
 
-在项目根目录build.gradle文件中添加自定义仓库，然后在dependencies中输入“`group`:`项目名`:`version`”导入相应的插件，之后便可以使用`apply plugin: 'com.slin.study.gradle.plugin.slin_gradle_plugin'`引用插件。
+在项目根目录build.gradle文件中添加自定义仓库，然后在dependencies中导入相应的插件（“`group`:`moduleName`:`version`”），之后便可以使用`apply plugin`引用插件。
 
 ```groovy
 buildscript {
@@ -200,13 +200,136 @@ buildscript {
 }
 ```
 
+```groovy
+apply plugin: 'com.slin.study.gradle.plugin.slin_gradle_plugin'
+```
 
 
-### 四、添加任务（Task）
+
+### 四、创建任务（Task）
+
+#### 1.任务的基本概念
+
+Gradle 在一个项目上可以做的工作都是由一个或多个*任务* 定义的。任务代表构建执行的一些原子工作。它们可能是编译一些类、创建 JAR、生成 Javadoc 或将一些档案发布到存储库。
+
+任务与函数一样，包括输入、输出、和执行过程，如下图。
+
+![任务输入输出](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/taskInputsOutputs.png)
+
+从上图中可以看出，输入的一个重要特征是它会影响一个或多个输出，如果输入或输出没有任何变化，依然去执行任务，将会消耗很多资源，因此Gradle 任务采用增量构建。Gradle 会检测自上次构建以来是否有任何任务输入或输出发生了变化。如果没有，Gradle 可以认为任务是最新的，因此跳过执行其操作。另请注意，不管任务有多少输入，必须至少有一个输出，否则增量构建将不起作用。
+
+如果任务属性影响输出，请确保将其注册为输入，否则该任务可能会被错误的认为是最新的。相反，如果属性不影响输出，则不要将它们注册为输入，否则任务可能会在不需要时执行。还要注意那种相同输入生成不同输出的非确定性任务：不应为增量构建配置这些任务，因为最新检查将不起作用。
+
+任务执行之后，会打印其执行方式：
+
+`(no label)` 或者 `EXECUTED`
+
+任务执行其所有的操作，即正常执行。
+
+`UP-TO-DATE`
+
+任务的输出没有改变。任务可能执行了操作，但是告诉没有任何输出改变。或者没有可执行操作并且所有依赖项都是`UP-TO-DATE`。
+
+`FROM-CACHE`
+
+任务的输出可以从之前的执行中找到，并从构建缓存恢复。
+
+`SKIPPED`
+
+任务未执行其操作。比如[从命令行中明确排除任务](https://docs.gradle.org/current/userguide/command_line_interface.html#sec:excluding_tasks_from_the_command_line)或者有一个[`onlyIf`](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:using_a_predicate)返回假。
+
+`NO-SOURCE`
+
+任务不需要执行其操作。任务有输入和输出，但输入标记为[`@SkipWhenEmpty`](https://docs.gradle.org/current/userguide/more_about_tasks.html#skip-when-empty)且为空。例如，源文件是[JavaCompile 的](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.compile.JavaCompile.html)`.java`文件。
+
+#### 2. 创建一个自定义任务
+
+Gradle中所有的任务都是继承自`DefaultTask`，其支持三个主要类别的输入和输出：
+
+- 简单值
+
+  字符串和数字之类的东西。更一般地说，一个简单的值可以有任何实现 的类型`Serializable`，通过Property包装。
+
+- 文件系统类型
+
+  它们包括标准`File`类，但也包括 Gradle 的[FileCollection](https://docs.gradle.org/current/javadoc/org/gradle/api/file/FileCollection.html)类型的派生类，以及任何其他可以传递给[Project.file(java.lang.Object)](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:file(java.lang.Object))方法（用于单个文件/目录属性）或[Project.files(java.lang.Object)](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:file(java.lang.Object))方法的类型。
+
+- 嵌套值
+
+  不符合其他两个类别但具有自己的输入或输出属性的自定义类型。实际上，任务输入或输出嵌套在这些自定义类型中。
+
+  
+
+```java
+//ProcessTemplatesTask.java
+public abstract class ProcessTemplatesTask extends DefaultTask {
+
+    @Input
+    public abstract Property<TemplateEngine> getTemplateEngine();
+
+    @InputFiles
+    public abstract ConfigurableFileCollection getSourceFiles();
+
+    @Nested
+    public abstract TemplateData getTemplateData();
+
+    @OutputDirectory
+    public abstract DirectoryProperty getOutputDir();
+
+    @TaskAction
+    public void processTemplate(){
+
+    }
+
+}
+```
+
+```java
+//TemplateData.java
+public abstract class TemplateData {
+
+    @Input
+    public abstract Property<String> getName();
+
+    @Input
+    public abstract MapProperty<String, String> getVariables();
+
+}
+
+```
 
 
 
+- 
 
+
+
+| 注解                      | 预期属性类型                                         | 描述                                                         |
+| :------------------------ | :--------------------------------------------------- | :----------------------------------------------------------- |
+| `@Input`                  | 任何`Serializable`类型                               | 一个简单的输入值                                             |
+| `@InputFile`              | `File`*                                              | 单个输入文件（不是目录）                                     |
+| `@InputDirectory`         | `File`*                                              | 单个输入目录（不是文件）                                     |
+| `@InputFiles`             | `Iterable<File>`*                                    | 输入文件和目录的迭代                                         |
+| `@Classpath`              | `Iterable<File>`*                                    | 代表 Java 类路径的输入文件和目录的可迭代对象。这允许任务忽略对属性的不相关更改，例如相同文件的不同名称。它类似于注释属性，`@PathSensitive(RELATIVE)`但它会忽略直接添加到类路径的 JAR 文件的名称，并将文件顺序的更改视为类路径的更改。Gradle 将检查类路径上 jar 文件的内容并忽略不影响类路径语义的更改（例如文件日期和条目顺序）。另请参阅[使用类路径注释](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:task_input_using_classpath_annotations)。**注：**该`@Classpath`注释在摇篮3.2中引入。为了与早期的 Gradle 版本保持兼容，类路径属性也应该用`@InputFiles`. |
+| `@CompileClasspath`       | `Iterable<File>`*                                    | 代表 Java 编译类路径的输入文件和目录的可迭代对象。这允许任务忽略不影响类路径中类的 API 的不相关更改。另请参阅[使用类路径注释](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:task_input_using_classpath_annotations)。以下对类路径的更改将被忽略：更改 jar 或顶级目录的路径。更改时间戳和 Jars 中的条目顺序。对资源和 Jar 清单的更改，包括添加或删除资源。对私有类元素的更改，例如私有字段、方法和内部类。代码更改，例如方法主体、静态初始化程序和字段初始化程序（常量除外）。对调试信息的更改，例如当对注释的更改影响类调试信息中的行号时。对目录的更改，包括 Jars 中的目录条目。该`@CompileClasspath`注解是在 Gradle 3.4 中引入的。为了与 Gradle 3.3 和 3.2 保持兼容，编译类路径属性也应该用`@Classpath`. 为了与 3.2 之前的 Gradle 版本兼容，该属性也应该用`@InputFiles`. |
+| `@OutputFile`             | `File`*                                              | 单个输出文件（不是目录）                                     |
+| `@OutputDirectory`        | `File`*                                              | 单个输出目录（不是文件）                                     |
+| `@OutputFiles`            | `Map<String, File>`** 或`Iterable<File>`*            | 输出文件的可迭代或映射。使用文件树会关闭任务的[缓存](https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching)。 |
+| `@OutputDirectories`      | `Map<String, File>`** 或`Iterable<File>`*            | 一个可迭代的输出目录。使用文件树会关闭任务的[缓存](https://docs.gradle.org/current/userguide/build_cache.html#sec:task_output_caching)。 |
+| `@Destroys`               | `File`或`Iterable<File>`*                            | 指定此任务删除的一个或多个文件。请注意，任务可以定义输入/输出或可销毁对象，但不能同时定义两者。 |
+| `@LocalState`             | `File`或`Iterable<File>`*                            | 指定一个或多个代表[任务本地状态的](https://docs.gradle.org/current/userguide/custom_tasks.html#sec:storing_incremental_task_state)文件。当任务从缓存中加载时，这些文件将被删除。 |
+| `@Nested`                 | 任何自定义类型                                       | 一种自定义类型，它可能不会实现，`Serializable`但至少有一个字段或属性用此表中的注释之一标记。它甚至可能是另一个`@Nested`。 |
+| `@Console`                | 任何类型                                             | 表示该属性既不是输入也不是输出。它只是以某种方式影响任务的控制台输出，例如增加或减少任务的详细程度。 |
+| `@Internal`               | 任何类型                                             | 表示该属性在内部使用，但既不是输入也不是输出。               |
+| `@ReplacedBy`             | 任何类型                                             | 表示该属性已被另一个替换，应作为输入或输出忽略。             |
+| `@SkipWhenEmpty`          | `File`或`Iterable<File>`*                            | 与`@InputFiles`或`@InputDirectory`一起使用，如果相应的文件或目录为空，则告诉 Gradle 跳过任务，以及使用此注释声明的所有其他输入文件。由于使用此注释声明为空的所有输入文件而被跳过的任务将导致明显的“无源”结果。例如，`NO-SOURCE`将在控制台输出中发出。暗示`@Incremental`。 |
+| `@Incremental`            | `Provider<FileSystemLocation>` 或者 `FileCollection` | 与`@InputFiles`或`@InputDirectory`用于指示 Gradle 跟踪对带注释的文件属性的更改，因此可以通过. 所需的[增量任务](https://docs.gradle.org/current/userguide/custom_tasks.html#incremental_tasks)。`@InputChanges.getFileChanges()` |
+| `@Optional`               | 任何类型                                             | 与[可选](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/Optional.html)API 文档中列出的任何属性类型注释一起使用。此注释禁用对相应属性的验证检查。有关更多详细信息，请参阅[验证部分](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:task_input_output_validation)。 |
+| `@PathSensitive`          | `File`或`Iterable<File>`*                            | 与任何输入文件属性一起使用，告诉 Gradle 只将文件路径的给定部分视为重要的。例如，如果一个属性用 注释`@PathSensitive(PathSensitivity.NAME_ONLY)`，那么在不更改其内容的情况下移动文件不会使任务过时。 |
+| `@IgnoreEmptyDirectories` | `File`或`Iterable<File>`*                            | 与`@InputFiles`或`@InputDirectory`一起使用，指示 Gradle 仅跟踪目录内容的更改，而不跟踪目录本身的差异。例如，在目录结构中的某处删除、重命名或添加空目录不会使任务过时。 |
+| `@NormalizeLineEndings`   | `File`或`Iterable<File>`*                            | 与`@InputFiles`,`@InputDirectory`或`@Classpath`一起使用，用于指示 Gradle 在计算最新检查或构建缓存键时规范化行尾。例如，在 Unix 行尾和 Windows 行尾（或反之亦然）之间切换文件不会使任务过时。 |
+
+> 注释必须放在 getter 或 Groovy 属性上。放置在 setter 或 Java 字段上没有相应的带注释的 getter 的注释将被忽略。
 
 
 
