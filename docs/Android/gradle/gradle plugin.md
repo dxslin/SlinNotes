@@ -631,6 +631,24 @@ public interface ServersExt {
 ServersExt serversExt = project.getExtensions().create("serversExt", ServersExt.class);	
 ```
 
+配置：
+
+```groovy
+serversExt {
+    serverEnv {
+        dev {
+            url = 'http://localhost:8080'
+        }
+
+        staging {
+            url = 'http://staging.enterprise.com'
+        }
+    }
+}
+```
+
+
+
 方式2：多配置直接最外层，这种方式可以跳过步骤二
 
 ```java
@@ -642,9 +660,23 @@ project.getExtensions().add("environments", serverEnvironmentContainer);
 
 ```
 
+配置：
 
+```groovy
+environments {
+    dev {
+        url = 'http://localhost:8080'
+    }
 
-### 六、总结
+    staging {
+        url = 'http://staging.enterprise.com'
+    }
+
+    production {
+        url = 'http://prod.enterprise.com'
+    }
+}
+```
 
 
 
