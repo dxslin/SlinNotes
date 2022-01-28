@@ -33,15 +33,11 @@ clone https://github.com/dxslin/SlinNotes.git
 
 ![1641276462604](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/1641276462604.png)
 
-
 2. 使用Android Studio编辑markdown
 
 （1） search everywhere 搜索“Choose Boot Java Runtime for the IDE...”，打开后选择一个带“JetBrains Runtime with JCEF”的java版本，比如“11.0.11+9-b1341.60 JetBrains Runtime with JCEF”
 
 （2） 安装Markdown Editor插件
-
-
-
 
 ## 参考仓库：
 
