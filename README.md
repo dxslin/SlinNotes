@@ -31,13 +31,16 @@ clone https://github.com/dxslin/SlinNotes.git
 
 1. 使用vs code安装`vditor`(vscode all markdown)插件，打开插件设置，修改Image:Path Type为picgo，然后配置PicGo:Config Path为PicGo配置文件目录，我这里为“C:\Users\Administrator\AppData\Roaming\picgo\data.json”（打开PicGo设置，打开配置文件即可看到）
 
-![1641276462604](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/1641276462604.png)
+![PicGo](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img/1641276462604.png)
 
 2. 使用Android Studio编辑markdown
 
 （1） search everywhere 搜索“Choose Boot Java Runtime for the IDE...”，打开后选择一个带“JetBrains Runtime with JCEF”的java版本，比如“11.0.11+9-b1341.60 JetBrains Runtime with JCEF”
 
 （2） 安装Markdown Editor插件
+
+（3） 图床安装 Markdown Image Kit插件
+![Markdown Image Kit插件](https://raw.githubusercontent.com/dxslin/SlinNotes/main/docs/assets/img//Accja8.png)
 
 ## 参考仓库：
 
