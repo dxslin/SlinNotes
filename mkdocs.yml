@@ -29,8 +29,8 @@ nav:
       - 'Compose':
           - 'Jetpack Compose使用Paging3加载数据到LazyColumn，页面跳转后状态丢失问题': Android\Compose\Paging_LazyColumn_StateLoss.md
       - 'Gradle':
-          - '自定义Gradle Plugin': Android\gradle\gradle plugin.md
-          - 'apt使用示例': Android\gradle\apt.md
+          - '自定义Gradle Plugin': Android\Gradle\gradle plugin.md
+          - 'apt使用示例': Android\Gradle\apt.md
 
 
 
