@@ -1,3 +1,9 @@
+# Matrix源码分析
+
+慢函数检测：
+
+`EvilMethodTracer.java`
+
 ### 参考资料
 
 1. [Matrix Wiki](https://github.com/Tencent/matrix/wiki)
