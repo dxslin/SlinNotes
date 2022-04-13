@@ -21,16 +21,18 @@ nav:
       - '概述': Android/index.md
       - 'View':
           - '安卓事件注册触发': Android/View/安卓事件注册触发.md
-      - 'Framework': 
+      - 'Framework':
           - 'Handler':
-                - 'MessageQueue的next方法': Android/Framework/Handler/MessageQueue.md
+              - 'MessageQueue的next方法': Android/Framework/Handler/MessageQueue.md
           - '屏幕旋转执行流程': Android/Framework/ConfigurationChange.md
-          
+
       - 'Jetpack':
           - 'ViewModel源码分析': Android/Jetpack/6. ViewModel.md
       - 'Gradle':
           - '自定义Gradle Plugin': Android\Gradle\gradle plugin.md
           - 'apt使用示例': Android\Gradle\apt.md
+      - 'Kotlin':
+          - '协程': Android\Kotlin\CoroutinesTheory.md
       - 'Compose':
           - 'Jetpack Compose使用Paging3加载数据到LazyColumn，页面跳转后状态丢失问题': Android\Compose\Paging_LazyColumn_StateLoss.md
 
@@ -93,10 +95,10 @@ markdown_extensions:
         - name: math
           class: arithmatex
           format: !!python/name:pymdownx.arithmatex.fence_mathjax_format
-# 自定义渲染需要自己编写
-#        - name: md-render
-#          class: md-render
-#          format: !!python/name:pymdownx.tools.pymdownx_md_render.md_sub_render
+            # 自定义渲染需要自己编写
+            #        - name: md-render
+            #          class: md-render
+          #          format: !!python/name:pymdownx.tools.pymdownx_md_render.md_sub_render
   - pymdownx.highlight:
       extend_pygments_lang:
         - name: php-inline
