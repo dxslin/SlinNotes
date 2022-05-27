@@ -1,3 +1,46 @@
+# 协程工作流程
+
+### 一、协程简要介绍
+
+协程的类结构可分为三部分：`CoroutineScope`、`CoroutineContext` 和 `Continuation`。
+
+1. `CoroutineContext`：协程上下文。协程执行过程中的一些数据保存在其中，类似与一个Map，比如key为`Job`保存当前协程；key为`ContinuationInterceptor`保存拦截器
+2. `CoroutineScope`：指定协程作用域。每个协程构建器(如`launch`、`async`等)都是`CoroutineScope`的扩展，并继承它的协程`coroutineContext`来自动传播它的所有元素和取消。
+3.  `Continuation`：可以翻译为程续体。你可以理解其每次在协程挂起点将剩余的代码包括起来，等到结束以后执行剩余的内容。一个协程的代码块可能会被切割成若干个 `Continuation`，在每个需要挂起的地方都会分配一个 `Continuation`。
+
+例如下面的代码，launch启动一个协程，然后执行到delay的时候后面的代码可以理解为一个新的 `Continuation`，然后通过
+
+```kotlin
+    GlobalScope.launch {
+        log("Coroutines1")
+        delay(1000)
+        log("Coroutines2")
+        delay(2000)
+        log("Coroutines3")
+    }
+```
+
+
+
+```mermaid
+stateDiagram
+state launch{
+	[*] --> delay1000:log("Coroutines1")
+	state delay1000{
+		[*] --> delay2000:log("Coroutines2")
+		state delay2000{
+			[*] --> end:log("Coroutines3")
+		}
+	}
+}
+```
+
+
+
+
+
+### 三、协程执行流程
+
 
 
 ```mermaid
